@@ -109,4 +109,18 @@ describe("Testando rota de atualização de usuário", () => {
     expect(response.body).toHaveProperty("name");
     expect(response.body).toHaveProperty("email");
   });
+  it("Hashes password updates before persisting", async () => {
+    const { compare } = await import("bcryptjs");
+    const password = "NewSecurePassword9!";
+    const response = await supertest(app)
+      .patch(`/users/${userNotAdmin.id}`)
+      .send({ password })
+      .set("Authorization", `Bearer ${tokenAdmin}`);
+    expect(response.status).toBe(200);
+    expect(response.body).not.toHaveProperty("password");
+    const result = await client.query("SELECT password FROM users WHERE id = $1", [userNotAdmin.id]);
+    expect(result.rows[0].password).not.toBe(password);
+    expect(await compare(password, result.rows[0].password)).toBe(true);
+  });
+
 });
