@@ -30,7 +30,6 @@ describe("Testando rota de criação de usuário", () => {
       .send({name: createUserNotAdmin.name, email: createUserNotAdmin.email, password: createUserNotAdmin.password});
 
     expect(response.status).toBe(201);
-    expect(response.body).toMatch;
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");
     expect(response.body).toHaveProperty("email");
@@ -43,7 +42,7 @@ describe("Testando rota de criação de usuário", () => {
   it("POST /users - Error: Criando um usuário com email que já existe.", async () => {
     const response = await supertest(app)
       .post("/users")
-      .send(createUserNotAdmin);
+      .send({name: createUserNotAdmin.name, email: createUserNotAdmin.email, password: createUserNotAdmin.password});
 
     expect(response.status).toBe(409);
     expect(response.body).toHaveProperty("message");
