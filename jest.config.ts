@@ -3,6 +3,6 @@ export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
     testMatch: ['**/__tests__/integrations/**/*.[jt]s?(x)'],
-    testTimeout: 1000,
+    testTimeout: 10000,
     verbose: true,
 }

@@ -18,26 +18,18 @@ describe("Testando rota de criação de usuário", () => {
     await client.end();
   });
 
-  it("POST /users - Sucesso: Criando um usuário admin com sucesso.", async () => {
+  it("POST /users - Bloqueia autoatribuição de admin no cadastro público.", async () => {
     const response = await supertest(app).post("/users").send(createUserAdmin);
-
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("id");
-    expect(response.body).toHaveProperty("name");
-    expect(response.body).toHaveProperty("email");
-    expect(response.body).toHaveProperty("admin");
-    expect(response.body).toHaveProperty("active");
-    expect(response.body).not.toHaveProperty("password");
-    expect(response.body.admin).toEqual(createUserAdmin.admin);
+    expect(response.status).toBe(400);
   });
+
 
   it("POST /users - Sucesso: Criando um usuário não admin com sucesso.", async () => {
     const response = await supertest(app)
       .post("/users")
-      .send(createUserNotAdmin);
+      .send({name: createUserNotAdmin.name, email: createUserNotAdmin.email, password: createUserNotAdmin.password});
 
     expect(response.status).toBe(201);
-    expect(response.body).toMatch;
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");
     expect(response.body).toHaveProperty("email");
@@ -50,7 +42,7 @@ describe("Testando rota de criação de usuário", () => {
   it("POST /users - Error: Criando um usuário com email que já existe.", async () => {
     const response = await supertest(app)
       .post("/users")
-      .send(createUserNotAdmin);
+      .send({name: createUserNotAdmin.name, email: createUserNotAdmin.email, password: createUserNotAdmin.password});
 
     expect(response.status).toBe(409);
     expect(response.body).toHaveProperty("message");

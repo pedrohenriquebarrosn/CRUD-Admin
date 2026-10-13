@@ -1,0 +1,41 @@
+name: CRUD Admin security audit
+on:
+  push:
+    branches: [review/deep-code-audit-20261013]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: audit
+          POSTGRES_PASSWORD: audit-only-password
+          POSTGRES_DB: crud_audit
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U audit -d crud_audit"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      NODE_ENV: test
+      DB_TEST_USER: audit
+      DB_TEST_PASSWORD: audit-only-password
+      DB_TEST_HOST: localhost
+      DB_TEST: crud_audit
+      DB_TEST_PORT: 5432
+      SECRET_KEY: audit-only-ephemeral-signing-key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npx tsc --noEmit
+      - run: npm test

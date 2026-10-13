@@ -1,39 +1,14 @@
-import { QueryResult } from "pg";
 import { client } from "../../database";
-import format from "pg-format";
-import { TUser, TUserResponse } from "../../interfaces/user.interfaces";
+import { AppError } from "../../error";
 
-const deleteUsersService = async (
-  userId: number,
-  token: number
-): Promise<TUserResponse> => {
-  const id: number = userId;
-  const userToken: number = token;
-
-  if (userToken !== id) {
-    throw new Error("Insufficient Permission");
-  }
-
-  const queryString: string = format(
-    `
-  UPDATE
-    users
-  SET
-    active = false
-  WHERE
-    id = %L
-  AND
-    active = true
-  RETURNING *;
-  `,
-    id
+/** Ownership/admin permission is validated by the route before this service. */
+const deleteUsersService = async (userId: number): Promise<void> => {
+  const result = await client.query(
+    "UPDATE users SET active = false WHERE id = $1 AND active = true RETURNING id",
+    [userId]
   );
-
-  const queryResult: QueryResult<TUser> = await client.query(queryString);
-
-  const user = queryResult.rows[0];
-
-  return user;
+  if (!result.rows[0]) {
+    throw new AppError("User not found or already inactive", 404);
+  }
 };
-
 export default deleteUsersService;

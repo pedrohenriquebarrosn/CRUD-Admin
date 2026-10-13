@@ -30,7 +30,7 @@ userRoutes.post(
 userRoutes.get(
   "",
   ensureTokenIsValidMiddleware,
-  ensureUserIsOwnerMiddleware,
+  ensureUserIsAdminMiddleware,
   listUsersController
 );
 
@@ -42,8 +42,8 @@ userRoutes.get(
 
 userRoutes.patch(
   "/:id",
-  ensureUserExistsMiddleware,
   ensureTokenIsValidMiddleware,
+  ensureUserExistsMiddleware,
   ensureUserIsOwnerMiddleware,
   ensureBodyIsValidMiddleware(updateUserSchema),
   updateUsersController

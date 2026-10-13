@@ -9,7 +9,8 @@ const userSchema = z.object({
   active: z.boolean().default(true),
 });
 
-const requestUserSchema = userSchema.omit({ id: true, active: true });
+// Public signup can never supply an admin role; the database defaults to false.
+const requestUserSchema = userSchema.omit({ id: true, active: true, admin: true }).strict();
 
 const updateUserSchema = userSchema
   .omit({

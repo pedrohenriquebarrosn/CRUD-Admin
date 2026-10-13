@@ -8,7 +8,7 @@ const createUserAdmin: TUserCreate = {
   email: "ugo@kenzie.com.br",
   password: "1234",
   admin: true,
-  active: false,
+  active: true,
 };
 
 const createUserNotAdmin: TUserCreate = {

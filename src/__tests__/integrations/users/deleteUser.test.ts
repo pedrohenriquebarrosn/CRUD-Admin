@@ -66,4 +66,10 @@ describe("Testando rota de deleção de usuário", () => {
     expect(response.body).toHaveProperty("message");
     expect(response.body.message).toBe("User not found");
   });
+  it("Rejects a still-unexpired token after the account is deactivated", async () => {
+    const response = await supertest(app).get("/users/profile").set("Authorization", `Bearer ${tokenNotAdmin}`);
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("Account inactive or unavailable");
+  });
+
 });

@@ -1,56 +1,22 @@
-import format from "pg-format";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import {
-  TLoginRequest,
-  TLoginResponse,
-} from "../../interfaces/login.interfaces";
-import { QueryResult } from "pg";
+import { compare } from "bcryptjs";
 import { client } from "../../database";
-import { TUser } from "../../interfaces/user.interfaces";
 import { AppError } from "../../error";
-import * as bcrypt from "bcryptjs";
+import { TLoginRequest, TLoginResponse } from "../../interfaces/login.interfaces";
 
-const createSessionService = async (
-  payload: TLoginRequest
-): Promise<TLoginResponse> => {
-  const queryString: string = format(
-    `
-    SELECT * FROM users
-    WHERE email = %L;
-    `,
-    payload.email
+const createSessionService = async (payload: TLoginRequest): Promise<TLoginResponse> => {
+  const result = await client.query(
+    "SELECT id, password, active FROM users WHERE email = $1 LIMIT 1",
+    [payload.email]
   );
-
-  const queryResult: QueryResult<TUser> = await client.query(queryString);
-
-  if (queryResult.rowCount === 0) {
+  const user = result.rows[0];
+  if (!user || user.active !== true || !(await compare(payload.password, user.password))) {
     throw new AppError("Wrong email/password", 401);
   }
-
-  const user = queryResult.rows[0];
-
-  const comparePassword: boolean = await bcrypt.compare(
-    payload.password,
-    user.password
-  );
-
-  if (!comparePassword) {
-    throw new AppError("Wrong email/password", 401);
-  }
-
-  const token: string = jwt.sign(
-    {
-      admin: user.admin,
-    },
-    String(process.env.SECRET_KEY!),
-    {
-      expiresIn: "24h",
-      subject: user.id.toString(),
-    }
-  );
-
+  const secret = process.env.SECRET_KEY;
+  if (!secret) throw new AppError("Authentication unavailable", 503);
+  const token = jwt.sign({}, secret, { expiresIn: "24h", subject: String(user.id) });
   return { token };
 };
-
 export default createSessionService;

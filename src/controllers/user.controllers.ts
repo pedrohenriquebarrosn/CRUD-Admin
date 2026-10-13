@@ -59,11 +59,8 @@ const deactivateUserController = async (
   res: Response
 ): Promise<Response> => {
   const userId: number = parseInt(req.params.id);
-  const userToken: number = res.locals.id;
-
-  const userData = await deleteUsersService(userId, userToken);
-
-  return res.status(204).json(userData);
+  await deleteUsersService(userId);
+  return res.status(204).send();
 };
 
 const recoverUsersController = async (
