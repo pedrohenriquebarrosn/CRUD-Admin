@@ -26,7 +26,7 @@ const createUsersData = async (client: Client) => {
     )
   );
 
-  createUserAdmin.password = await hash(createUserNotAdmin.password, 10);
+  createUserAdmin.password = await hash(createUserAdmin.password, 10);
 
   const queryResultAdmin: QueryResult = await client.query(
     format(
