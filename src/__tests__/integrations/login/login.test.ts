@@ -33,6 +33,7 @@ describe("Testando rota de login", () => {
   });
 
   it("POST /login - Error: Fazendo login com usuário inativo.", async () => {
+    await client.query("UPDATE users SET active = false WHERE email = $1", [userAdminLogin.email]);
     const response = await supertest(app).post("/login").send(userAdminLogin);
 
     expect(response.status).toBe(401);
