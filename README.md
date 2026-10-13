@@ -1,89 +1,67 @@
+# CRUD Admin — User Management REST API
 
-# User Management & Admin Access — REST API
+**TypeScript and PostgreSQL REST API for authentication, user management, and role-based access control.**
 
-An educational REST API built with Express, TypeScript, and PostgreSQL. Developed during my Full Stack Web Development training at **Kenzie Academy Brasil**.
+[**↗ Code on GitHub**](https://github.com/pedrohenriquebarrosn/CRUD-Admin/tree/review/deep-code-audit-20261013)
 
 ## Overview
 
-A back-end application designed to manage users, authentication, and access permissions through a RESTful API.
+CRUD Admin is a back-end project developed during Kenzie Academy Brasil's Full Stack program. It demonstrates API design, password hashing, JWT authentication, protected routes, input validation, and relational persistence.
 
-## Features
+## Key features
 
-- User registration with input validation and duplicate-email checks.
-- Login with token-based authentication.
-- Authenticated user profile access.
-- User listing and profile updates with authorization checks.
-- User deactivation.
-- Administrator-protected user recovery.
-- Error handling and database integration.
+- Register users with input validation and duplicate-email checks.
+- Authenticate with JSON Web Tokens (JWT).
+- Retrieve profiles and manage user records with permission checks.
+- Update user details and passwords, with bcrypt hashing.
+- Deactivate accounts and recover eligible users through protected administrative routes.
+- Use centralized error handling and parametrized database queries.
 
-## Technologies
+## Technology stack
 
-- Node.js
-- TypeScript
-- Express.js
-- PostgreSQL
-- JSON Web Tokens (JWT)
-- bcryptjs
-- Zod
-- Jest and Supertest
+Node.js · TypeScript · Express · PostgreSQL · JWT · bcryptjs · Zod · Jest · Supertest
 
-## API Endpoints
+## API routes
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/users` | Register a user |
-| GET | `/users` | List users with authorization checks |
-| GET | `/users/profile` | View user profile |
-| PATCH | `/users/:id` | Update authorized user |
-| DELETE | `/users/:id` | Deactivate authorized user |
-| PUT | `/users/:id/recover` | Administrator-protected user recovery |
-| POST | `/login` | Authenticate a user |
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/users` | User registration |
+| `POST` | `/login` | Authentication |
+| `GET` | `/users/profile` | Authenticated profile |
+| `GET` | `/users` | Authorized user listing |
+| `PATCH` | `/users/:id` | Authorized profile update |
+| `DELETE` | `/users/:id` | User deactivation |
+| `PUT` | `/users/:id/recover` | Administrative account recovery |
 
-These endpoints are defined in the source code. Their behavior has not been independently verified through live API testing.
+## Explore and run locally
 
-## Getting Started
-
-Clone the repository and install dependencies:
+The [reviewed implementation](https://github.com/pedrohenriquebarrosn/CRUD-Admin/tree/review/deep-code-audit-20261013) contains authorization and password-handling improvements validated in isolated CI. The default `main` branch preserves an earlier coursework version.
 
 ```bash
+git clone https://github.com/pedrohenriquebarrosn/CRUD-Admin.git
+cd CRUD-Admin
+git switch review/deep-code-audit-20261013
 npm install
 ```
 
-Configure a local PostgreSQL database and create a `.env` file with the required database settings:
-
-```dotenv
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB=your_database
-DB_PORT=5432
-SECRET_KEY=replace_with_a_long_random_secret
-```
-
-Start the development server:
+Copy the documented database configuration from `.env.example` into a local `.env` and provide a PostgreSQL instance and private JWT signing secret.
 
 ```bash
 npm run dev
 ```
 
-The server uses port 3000 by default unless another port is configured.
+## Engineering and verification
 
-## Technical Highlights
+- TypeScript checks and integration tests with a dedicated PostgreSQL test instance passed in GitHub Actions.
+- Regression tests cover ordinary-user registration, secure password updates, authorization, and access after account deactivation.
+- This repository is a back-end API; its interface is HTTP endpoints and testable source code rather than a graphical website.
 
-- RESTful API architecture.
-- Authentication and authorization middleware.
-- Protected routes and administrator permissions.
-- Request validation using Zod.
-- Password hashing and token-based authentication.
-- Relational database integration.
-- Modular organization of routes, controllers, and services.
+The implementation is presented as an educational engineering project, not a deployed identity provider or externally audited production security service.
 
-## Project Scope
+---
 
-This project was developed for educational purposes. It demonstrates back-end development and access-control concepts, but has not been independently validated as a production-ready authentication service.
+## Author
 
-## Connect
+**Pedro Henrique Barros Nascimento** — Business Administration graduate and Full Stack development alumnus of Kenzie Academy Brasil.
 
-- [LinkedIn](https://www.linkedin.com/in/pedro-henrique-barros-nascimento-2bb684251/)
-- [GitHub Profile](https://github.com/pedrohenriquebarrosn)
+[GitHub profile](https://github.com/pedrohenriquebarrosn) · [LinkedIn](https://www.linkedin.com/in/pedro-henrique-barros-nascimento-2bb684251/)
