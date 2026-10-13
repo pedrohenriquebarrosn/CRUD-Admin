@@ -1,29 +1,13 @@
-import format from "pg-format";
 import { client } from "../../database";
-import { QueryResult } from "pg";
+import { AppError } from "../../error";
 import { TUserResponse } from "../../interfaces/user.interfaces";
 
-const listUserProfileService = async (
-  userId: number
-): Promise<TUserResponse> => {
-  const id: number = userId;
-  console.log(id);
-  const queryString: string = format(
-    `
-  SELECT
-   "id", "name", "email", "admin", "active" 
-  FROM 
-    users
-  WHERE id= %L;
-  `,
-    id
+const listUserProfileService = async (userId: number): Promise<TUserResponse> => {
+  const result = await client.query<TUserResponse>(
+    "SELECT id, name, email, admin, active FROM users WHERE id = $1 LIMIT 1",
+    [userId]
   );
-
-  const queryResult: QueryResult<TUserResponse> = await client.query(
-    queryString
-  );
-
-  return queryResult.rows[0];
+  if (!result.rows[0]) throw new AppError("User not found", 404);
+  return result.rows[0];
 };
-
 export default listUserProfileService;
