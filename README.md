@@ -2,7 +2,7 @@
 
 **TypeScript and PostgreSQL REST API for authentication, user management, and role-based access control.**
 
-[**↗ Code on GitHub**](https://github.com/pedrohenriquebarrosn/CRUD-Admin/tree/review/deep-code-audit-20261013)
+[**↗ Code on GitHub**](https://github.com/pedrohenriquebarrosn/CRUD-Admin)
 
 ## Overview
 
@@ -35,12 +35,11 @@ Node.js · TypeScript · Express · PostgreSQL · JWT · bcryptjs · Zod · Jest
 
 ## Explore and run locally
 
-The [reviewed implementation](https://github.com/pedrohenriquebarrosn/CRUD-Admin/tree/review/deep-code-audit-20261013) contains authorization and password-handling improvements validated in isolated CI. The default `main` branch preserves an earlier coursework version.
+The default `main` branch contains the reviewed authorization and password-handling improvements, validated with an isolated PostgreSQL test database.
 
 ```bash
 git clone https://github.com/pedrohenriquebarrosn/CRUD-Admin.git
 cd CRUD-Admin
-git switch review/deep-code-audit-20261013
 npm install
 ```
 
