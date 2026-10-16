@@ -4,6 +4,10 @@
 
 [**↗ Code on GitHub**](https://github.com/pedrohenriquebarrosn/CRUD-Admin)
 
+**Project status:** Documented REST API with reviewed authentication, authorization and PostgreSQL integration tests. [Security audit and tests](https://github.com/pedrohenriquebarrosn/CRUD-Admin/actions/runs/38414305297).
+
+**More work:** [Professional Portfolio 2026](https://portfolio-pedro-barros-2026-review.vercel.app/en) · [Versão em português](https://portfolio-pedro-barros-2026-review.vercel.app/pt)
+
 ## Overview
 
 CRUD Admin is a back-end project developed during Kenzie Academy Brasil's Full Stack program. It demonstrates API design, password hashing, JWT authentication, protected routes, input validation, and relational persistence.
