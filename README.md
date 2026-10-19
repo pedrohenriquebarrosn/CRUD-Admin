@@ -1,45 +1,42 @@
-# CRUD Admin — User Management REST API
+# CRUD Admin — Secure User Management REST API
 
-**TypeScript and PostgreSQL REST API for authentication, user management, and role-based access control.**
+**A TypeScript REST API for account management, JWT authentication, permissions, and PostgreSQL persistence.**
 
-[**↗ Code on GitHub**](https://github.com/pedrohenriquebarrosn/CRUD-Admin)
-
-**Project status:** Documented REST API with reviewed authentication, authorization and PostgreSQL integration tests. [Security audit and tests](https://github.com/pedrohenriquebarrosn/CRUD-Admin/actions/runs/38414305297).
-
-**More work:** [Professional Portfolio 2026](https://portfolio-pedro-barros-2026-review.vercel.app/en) · [Versão em português](https://portfolio-pedro-barros-2026-review.vercel.app/pt)
+[**Browse source code ↗**](https://github.com/pedrohenriquebarrosn/CRUD-Admin) · [**Professional portfolio ↗**](https://portfolio-pedro-barros-2026-review.vercel.app/en) · [**Integration tests ↗**](https://github.com/pedrohenriquebarrosn/CRUD-Admin/actions/runs/38414305297)
 
 ## Overview
 
-CRUD Admin is a back-end project developed during Kenzie Academy Brasil's Full Stack program. It demonstrates API design, password hashing, JWT authentication, protected routes, input validation, and relational persistence.
+CRUD Admin is a backend application focused on authenticated user-management workflows. It combines structured API routes, input validation, password hashing, authorization checks, and relational data storage.
 
-## Key features
+Developed during Full Stack training and subsequently reviewed, the project demonstrates how a Node.js/Express API handles accounts, protects restricted operations, and tests persistence against PostgreSQL.
 
-- Register users with input validation and duplicate-email checks.
-- Authenticate with JSON Web Tokens (JWT).
-- Retrieve profiles and manage user records with permission checks.
-- Update user details and passwords, with bcrypt hashing.
-- Deactivate accounts and recover eligible users through protected administrative routes.
-- Use centralized error handling and parametrized database queries.
+## Features
+
+- **User registration:** validate new accounts and reject duplicate emails.
+- **JWT authentication:** issue and validate tokens for protected routes.
+- **Role-based authorization:** differentiate permitted account and administrative operations.
+- **Account management:** view profiles, update user information, and update passwords.
+- **Account lifecycle:** deactivate users and support authorized account recovery.
+- **Database integration:** PostgreSQL persistence and parameterized queries.
+- **Reliable error handling:** centralized errors and request validation.
 
 ## Technology stack
 
-Node.js · TypeScript · Express · PostgreSQL · JWT · bcryptjs · Zod · Jest · Supertest
+Node.js · TypeScript · Express · PostgreSQL · JSON Web Tokens · bcryptjs · Zod · Jest · Supertest
 
-## API routes
+## API reference
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
-| `POST` | `/users` | User registration |
-| `POST` | `/login` | Authentication |
-| `GET` | `/users/profile` | Authenticated profile |
-| `GET` | `/users` | Authorized user listing |
-| `PATCH` | `/users/:id` | Authorized profile update |
-| `DELETE` | `/users/:id` | User deactivation |
-| `PUT` | `/users/:id/recover` | Administrative account recovery |
+| `POST` | `/users` | Register an account |
+| `POST` | `/login` | Authenticate a user |
+| `GET` | `/users/profile` | Retrieve the authenticated profile |
+| `GET` | `/users` | List users with authorization checks |
+| `PATCH` | `/users/:id` | Update authorized account fields |
+| `DELETE` | `/users/:id` | Deactivate an account |
+| `PUT` | `/users/:id/recover` | Recover an account with administrative authorization |
 
-## Explore and run locally
-
-The default `main` branch contains the reviewed authorization and password-handling improvements, validated with an isolated PostgreSQL test database.
+## Run locally
 
 ```bash
 git clone https://github.com/pedrohenriquebarrosn/CRUD-Admin.git
@@ -47,24 +44,24 @@ cd CRUD-Admin
 npm install
 ```
 
-Copy the documented database configuration from `.env.example` into a local `.env` and provide a PostgreSQL instance and private JWT signing secret.
+Create a local `.env` based on `.env.example`, configure the PostgreSQL database and JWT signing secret, and then start the server:
 
 ```bash
 npm run dev
 ```
 
-## Engineering and verification
+This is a backend/API repository. Interact with the routes using an HTTP client or automated tests; no separate web UI is required.
 
-- TypeScript checks and integration tests with a dedicated PostgreSQL test instance passed in GitHub Actions.
-- Regression tests cover ordinary-user registration, secure password updates, authorization, and access after account deactivation.
-- This repository is a back-end API; its interface is HTTP endpoints and testable source code rather than a graphical website.
+## Tests & engineering practices
 
-The implementation is presented as an educational engineering project, not a deployed identity provider or externally audited production security service.
+- TypeScript and PostgreSQL-backed integration tests were run in GitHub Actions.
+- Regression coverage includes registration, authentication, password updates, authorization, and post-deactivation access.
+- Sensitive operations use password hashing, permission checks, and validated inputs.
 
----
+[**Explore the recorded test run ↗**](https://github.com/pedrohenriquebarrosn/CRUD-Admin/actions/runs/38414305297)
 
-## Author
+## About the developer
 
-**Pedro Henrique Barros Nascimento** — Business Administration graduate and Full Stack development alumnus of Kenzie Academy Brasil.
+**Pedro Henrique Barros Nascimento** — Full Stack Web Development training at Kenzie Academy Brasil; Business Administration coursework completed at UNIFG. Interested in applied AI, software development, and practical business solutions.
 
-[GitHub profile](https://github.com/pedrohenriquebarrosn) · [LinkedIn](https://www.linkedin.com/in/pedro-henrique-barros-nascimento-2bb684251/)
+[GitHub](https://github.com/pedrohenriquebarrosn) · [LinkedIn](https://www.linkedin.com/in/pedro-henrique-barros-nascimento-2bb684251/) · [Portfolio EN](https://portfolio-pedro-barros-2026-review.vercel.app/en) · [Portfólio PT](https://portfolio-pedro-barros-2026-review.vercel.app/pt)
